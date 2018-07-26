@@ -1,6 +1,7 @@
 import store from '../../store';
 import abi from 'human-standard-token-abi';
 import moment from 'moment';
+import BigNumber from 'bignumber.js';
 
 import { toBaseUnit } from '../utils';
 import showMessage from '../../components/message';
@@ -33,18 +34,18 @@ const createSignedOrderAsync = orderData => {
   return contracts.OrderLib.deployed().then(orderLib => {
     let order = {
       contractAddress: simExchange.contract.MARKET_COLLATERAL_POOL_ADDRESS,
-      expirationTimestamp: web3.toBigNumber(
+      expirationTimestamp: new BigNumber(
         moment(orderData.expirationTimestamp).unix()
       ),
       feeRecipient: '0x0000000000000000000000000000000000000000',
       maker: web3.eth.coinbase,
-      makerFee: web3.toBigNumber(0),
+      makerFee: new BigNumber(0),
       taker: '',
-      takerFee: web3.toBigNumber(0),
-      orderQty: web3.toBigNumber(orderData.qty),
-      price: web3.toBigNumber(orderData.price),
-      remainingQty: web3.toBigNumber(orderData.qty),
-      salt: web3.toBigNumber(Math.random())
+      takerFee: new BigNumber(0),
+      orderQty: new BigNumber(orderData.qty),
+      price: new BigNumber(orderData.price),
+      remainingQty: new BigNumber(orderData.qty),
+      salt: new BigNumber(Math.random())
     };
 
     return marketjs.createSignedOrderAsync(
@@ -79,7 +80,7 @@ const depositCollateralAsync = amount => {
   collateralTokenContractInstance.decimals.call((err, decimals) => {
     collateralTokenContractInstance.approve(
       simExchange.contract.MARKET_COLLATERAL_POOL_ADDRESS,
-      web3.toBigNumber(toBaseUnit(amount.number, decimals)),
+      new BigNumber(toBaseUnit(amount.number, decimals)),
       txParams,
       (err, res) => {
         if (err) {
@@ -88,7 +89,7 @@ const depositCollateralAsync = amount => {
           marketjs
             .depositCollateralAsync(
               simExchange.contract.MARKET_COLLATERAL_POOL_ADDRESS,
-              web3.toBigNumber(toBaseUnit(amount.number, decimals)),
+              new BigNumber(toBaseUnit(amount.number, decimals)),
               txParams
             )
             .then(res => {
@@ -173,26 +174,18 @@ const tradeOrderAsync = signedOrderJSON => {
     from: web3.eth.coinbase
   };
 
-  console.log('signedOrder', signedOrder);
-
   signedOrder.taker = web3.eth.coinbase;
-  signedOrder.expirationTimestamp = web3.toBigNumber(
+  signedOrder.expirationTimestamp = new BigNumber(
     signedOrder.expirationTimestamp
   );
-  signedOrder.makerFee = web3.toBigNumber(signedOrder.makerFee);
-  signedOrder.orderQty = web3.toBigNumber(signedOrder.orderQty);
-  signedOrder.price = web3.toBigNumber(signedOrder.price);
-  signedOrder.remainingQty = web3.toBigNumber(signedOrder.remainingQty);
-  signedOrder.takerFee = web3.toBigNumber(signedOrder.takerFee);
-
-  console.log('signedOrderafter', signedOrder);
+  signedOrder.makerFee = new BigNumber(signedOrder.makerFee);
+  signedOrder.orderQty = new BigNumber(signedOrder.orderQty);
+  signedOrder.price = new BigNumber(signedOrder.price);
+  signedOrder.remainingQty = new BigNumber(signedOrder.remainingQty);
+  signedOrder.takerFee = new BigNumber(signedOrder.takerFee);
 
   marketjs
-    .tradeOrderAsync(
-      signedOrder,
-      web3.toBigNumber(signedOrder.orderQty),
-      txParams
-    )
+    .tradeOrderAsync(signedOrder, signedOrder.orderQty, txParams)
     .then(res => {
       return res;
     });

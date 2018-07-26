@@ -40,7 +40,7 @@ const createSignedOrderAsync = orderData => {
       feeRecipient: '0x0000000000000000000000000000000000000000',
       maker: web3.eth.coinbase,
       makerFee: new BigNumber(0),
-      taker: '',
+      taker: '0x0000000000000000000000000000000000000000',
       takerFee: new BigNumber(0),
       orderQty: new BigNumber(orderData.qty),
       price: new BigNumber(orderData.price),
@@ -139,7 +139,6 @@ const tradeOrderAsync = signedOrderJSON => {
     from: web3.eth.coinbase
   };
 
-  signedOrder.taker = web3.eth.coinbase;
   signedOrder.expirationTimestamp = new BigNumber(
     signedOrder.expirationTimestamp
   );
@@ -149,9 +148,6 @@ const tradeOrderAsync = signedOrderJSON => {
   signedOrder.remainingQty = new BigNumber(signedOrder.remainingQty);
   signedOrder.takerFee = new BigNumber(signedOrder.takerFee);
   signedOrder.salt = new BigNumber(signedOrder.salt);
-  signedOrder.ecSignature.v = parseInt(signedOrder.ecSignature.v);
-
-  console.log('signedOrder', signedOrder);
 
   marketjs
     .tradeOrderAsync(signedOrder, signedOrder.orderQty, txParams)

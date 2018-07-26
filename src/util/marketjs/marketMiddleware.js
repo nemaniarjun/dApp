@@ -43,10 +43,14 @@ const createSignedOrderAsync = orderData => {
       takerFee: web3.toBigNumber(0),
       orderQty: web3.toBigNumber(orderData.qty),
       price: web3.toBigNumber(orderData.price),
+      remainingQty: web3.toBigNumber(orderData.qty),
       salt: web3.toBigNumber(Math.random())
     };
 
-    return marketjs.createSignedOrderAsync(orderLib.address, ...Object.values(order));
+    return marketjs.createSignedOrderAsync(
+      orderLib.address,
+      ...Object.values(order)
+    );
   });
 };
 
@@ -160,9 +164,44 @@ const withdrawCollateralAsync = amount => {
   });
 };
 
+const tradeOrderAsync = signedOrderJSON => {
+  const { marketjs } = store.getState();
+  const web3 = store.getState().web3.web3Instance;
+  const signedOrder = JSON.parse(signedOrderJSON);
+
+  const txParams = {
+    from: web3.eth.coinbase
+  };
+
+  console.log('signedOrder', signedOrder);
+
+  signedOrder.taker = web3.eth.coinbase;
+  signedOrder.expirationTimestamp = web3.toBigNumber(
+    signedOrder.expirationTimestamp
+  );
+  signedOrder.makerFee = web3.toBigNumber(signedOrder.makerFee);
+  signedOrder.orderQty = web3.toBigNumber(signedOrder.orderQty);
+  signedOrder.price = web3.toBigNumber(signedOrder.price);
+  signedOrder.remainingQty = web3.toBigNumber(signedOrder.remainingQty);
+  signedOrder.takerFee = web3.toBigNumber(signedOrder.takerFee);
+
+  console.log('signedOrderafter', signedOrder);
+
+  marketjs
+    .tradeOrderAsync(
+      signedOrder,
+      web3.toBigNumber(signedOrder.orderQty),
+      txParams
+    )
+    .then(res => {
+      return res;
+    });
+};
+
 export const MarketJS = {
   createSignedOrderAsync,
   depositCollateralAsync,
   getUserAccountBalanceAsync,
+  tradeOrderAsync,
   withdrawCollateralAsync
 };

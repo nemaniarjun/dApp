@@ -31,7 +31,7 @@ const createSignedOrderAsync = orderData => {
   );
   const contracts = initializeContracts(Contracts);
 
-  return contracts.OrderLib.deployed().then(async orderLib => {
+  return contracts.OrderLib.deployed().then(orderLib => {
     let order = {
       contractAddress: simExchange.contract.MARKET_COLLATERAL_POOL_ADDRESS,
       expirationTimestamp: new BigNumber(
@@ -45,26 +45,14 @@ const createSignedOrderAsync = orderData => {
       orderQty: new BigNumber(orderData.qty),
       price: new BigNumber(orderData.price),
       remainingQty: new BigNumber(orderData.qty),
-      salt: new BigNumber(1)
+      salt: new BigNumber(1),
+      shouldAddPersonalMessagePrefix: true
     };
 
-    await marketjs
-      .createOrderHashAsync(orderLib.address, order)
-      .then(async orderHash => {
-        console.log('orderHash', orderHash);
-
-        await marketjs
-          .createSignedOrderAsync(orderLib.address, ...Object.values(order))
-          .then(async signedOrder => {
-            console.log('signedOrder', signedOrder);
-
-            let isValidSig = await marketjs.isValidSignatureAsync(
-              signedOrder,
-              orderHash
-            );
-            console.log('isValidSig', isValidSig);
-            return signedOrder;
-          });
+    return marketjs
+      .createSignedOrderAsync(orderLib.address, ...Object.values(order))
+      .then(res => {
+        return res;
       });
   });
 };
@@ -162,9 +150,6 @@ const tradeOrderAsync = signedOrderJSON => {
   signedOrder.remainingQty = new BigNumber(signedOrder.remainingQty);
   signedOrder.takerFee = new BigNumber(signedOrder.takerFee);
   signedOrder.salt = new BigNumber(signedOrder.salt);
-  signedOrder.ecSignature.v = `0x${signedOrder.ecSignature.v.toString(16)}`;
-
-  console.log('signedOrderTrade', signedOrder);
 
   marketjs
     .tradeOrderAsync(signedOrder, signedOrder.orderQty, txParams)

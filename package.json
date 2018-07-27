@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@marketprotocol/abis": "^0.0.1",
-    "@marketprotocol/marketjs": "^0.0.10",
+    "@marketprotocol/marketjs": "^0.0.13",
     "@marketprotocol/marketprotocol": "^1.2.0",
     "antd": "^3.7.0",
     "autoprefixer": "7.1.6",

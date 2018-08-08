@@ -13,6 +13,11 @@ module.exports = {
       from: '0x8a6C7Ea2C27827093825e5FdD57BD564312c6a2c',
       network_id: 4,
       gasPrice: 3000000000 // Specified in Wei
+    },
+    docker: {
+      host: 'truffle',
+      port: 9545,
+      network_id: '*' // Match any network id
     }
   }
 };

@@ -33,3 +33,19 @@ services:
       - "3000:3000"
     depends_on:
       - truffle
+      - eth-bridge
+
+  truffle-migrate:
+    build: .
+    command: truffle migrate --reset --network=docker
+    volumes:
+      - ./build:/app/build
+      - ./contracts:/app/contracts
+      - ./migrations:/app/migrations
+    restart: unless-stopped
+    links:
+      - truffle
+    depends_on:
+      - truffle
+      - eth-bridge
+      - app

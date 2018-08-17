@@ -68,8 +68,11 @@ const depositCollateralAsync = (amount, str = store) => {
     .at(simExchange.contract.COLLATERAL_TOKEN_ADDRESS);
 
   collateralTokenContractInstance.decimals.call((err, decimals) => {
+    // NOTE: we are calling approve on the abi used above, this it outside of MARKET.js and therefore
+    // needs to use the market collateral pool address.  We will add functionality in MARKET.js to simplify this
+    // and no longer need to use the Collateral Pool Address.
     collateralTokenContractInstance.approve(
-      simExchange.contract.key,
+      simExchange.contract.MARKET_COLLATERAL_POOL_ADDRESS,
       web3.toBigNumber(toBaseUnit(amount.number, decimals)),
       txParams,
       (err, res) => {

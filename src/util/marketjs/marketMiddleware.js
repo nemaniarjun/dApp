@@ -58,6 +58,7 @@ const createSignedOrderAsync = (orderData, str = store) => {
 const depositCollateralAsync = (amount, str = store) => {
   const { simExchange, marketjs } = str.getState();
   const web3 = str.getState().web3.web3Instance;
+  web3.eth.getTransactionReceiptMined = require('../web3/getTransactionReceiptMined');
 
   const txParams = {
     from: web3.eth.coinbase
@@ -79,21 +80,22 @@ const depositCollateralAsync = (amount, str = store) => {
         if (err) {
           console.error(err);
         } else {
-          marketjs
-            .depositCollateralAsync(
-              simExchange.contract.key,
-              new BigNumber(toBaseUnit(amount.number, decimals)),
-              txParams
-            )
-            .then(res => {
-              showMessage(
-                'success',
-                'Deposit successful, your transaction will process shortly.',
-                5
-              );
-
-              return res;
-            });
+          return web3.eth.getTransactionReceiptMined(res).then(function() {
+            marketjs
+              .depositCollateralAsync(
+                simExchange.contract.key,
+                new BigNumber(toBaseUnit(amount.number, decimals)),
+                txParams
+              )
+              .then(res => {
+                showMessage(
+                  'success',
+                  'Deposit successful, your transaction will process shortly.',
+                  5
+                );
+                return res;
+              });
+          });
         }
       }
     );

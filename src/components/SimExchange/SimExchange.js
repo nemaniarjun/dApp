@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import TopBar from './TopBar';
 import Trades from './Trades';
 import Wallet from './Wallet';
+import FillOrder from './FillOrder';
 
 import './SimExchange.less';
 
@@ -48,15 +49,25 @@ class SimExchange extends Component {
             <Menu.Item key="/exchange/wallet/">
               <Link to="/exchange/wallet/">Wallet</Link>
             </Menu.Item>
+            <Menu.Item key="/exchange/fill-order/">
+              <Link to="/exchange/fill-order/">Fill Order</Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Content className="exchange-content">
           <Header className="exchange-header">
-            <TopBar
-              contract={contract}
-              contracts={contracts}
-              onSelectContract={this.props.selectContract}
-            />
+            {location.pathname !== '/exchange/fill-order/' ? (
+              <TopBar
+                contract={contract}
+                contracts={contracts}
+                onSelectContract={this.props.selectContract}
+              />
+            ) : (
+              <div>
+                <h3>Fill Order</h3>
+                <h5>Paste your ORDER JSON blob below to begin</h5>
+              </div>
+            )}
           </Header>
           <Switch>
             <Route
@@ -74,6 +85,11 @@ class SimExchange extends Component {
               exact
               path="/exchange/wallet/"
               render={() => <Wallet {...this.props} />}
+            />
+            <Route
+              exact
+              path="/exchange/fill-order/"
+              render={() => <FillOrder {...this.props} />}
             />
             <Redirect to="/exchange/trades/" />
           </Switch>

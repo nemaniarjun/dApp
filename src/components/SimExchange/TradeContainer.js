@@ -55,7 +55,8 @@ class Buy extends Component {
     this.setState({ modal: false });
 
     MarketJS.createSignedOrderAsync(this.state.order).then(res => {
-      console.log('createSignedOrderAsync', res);
+      console.log('signedOrder', res);
+      console.log('signedOrderJSON', JSON.stringify(res));
     });
   }
 

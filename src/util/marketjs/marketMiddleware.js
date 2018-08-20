@@ -7,6 +7,9 @@ import store from '../../store';
 import { toBaseUnit } from '../utils';
 import showMessage from '../../components/message';
 
+import { NULL_ADDRESS } from '../../constants';
+import { Utils } from '@marketprotocol/marketjs';
+
 // PUBLIC
 
 /**
@@ -18,26 +21,28 @@ import showMessage from '../../components/message';
  * @param orderData user inputed order data object {qty, price, expirationTimestamp}
  * @returns {object} signed order hash
  **/
-const createSignedOrderAsync = orderData => {
-  const { marketjs, simExchange } = store.getState();
-  const web3 = store.getState().web3.web3Instance;
+const createSignedOrderAsync = (orderData, str = store) => {
+  const { marketjs, simExchange, web3 } = str.getState();
 
   let order = {
     contractAddress: simExchange.contract.key,
     expirationTimestamp: new BigNumber(
       moment(orderData.expirationTimestamp).unix()
     ),
-    feeRecipient: '0x0000000000000000000000000000000000000000',
-    maker: web3.eth.coinbase,
+    feeRecipient: NULL_ADDRESS,
+    maker: web3.web3Instance.eth.coinbase,
     makerFee: new BigNumber(0),
-    taker: '',
+    taker: NULL_ADDRESS,
     takerFee: new BigNumber(0),
     orderQty: new BigNumber(orderData.qty),
     price: new BigNumber(orderData.price),
-    salt: new BigNumber(1)
+    salt: new BigNumber(Utils.generatePseudoRandomSalt())
   };
 
-  return marketjs.createSignedOrderAsync(...Object.values(order));
+  return marketjs.createSignedOrderAsync(
+    ...Object.values(order),
+    web3.web3Instance.currentProvider.isMetaMask ? true : false
+  );
 };
 
 /**
@@ -50,9 +55,10 @@ const createSignedOrderAsync = orderData => {
  * @param amount the amount of collateral tokens you want to deposit
  * @returns boolean
  **/
-const depositCollateralAsync = amount => {
-  const { simExchange, marketjs } = store.getState();
-  const web3 = store.getState().web3.web3Instance;
+const depositCollateralAsync = (amount, str = store) => {
+  const { simExchange, marketjs } = str.getState();
+  const web3 = str.getState().web3.web3Instance;
+  web3.eth.getTransactionReceiptMined = require('../web3/getTransactionReceiptMined');
 
   const txParams = {
     from: web3.eth.coinbase
@@ -63,6 +69,9 @@ const depositCollateralAsync = amount => {
     .at(simExchange.contract.COLLATERAL_TOKEN_ADDRESS);
 
   collateralTokenContractInstance.decimals.call((err, decimals) => {
+    // NOTE: we are calling approve on the abi used above, this it outside of MARKET.js and therefore
+    // needs to use the market collateral pool address.  We will add functionality in MARKET.js to simplify this
+    // and no longer need to use the Collateral Pool Address.
     collateralTokenContractInstance.approve(
       simExchange.contract.MARKET_COLLATERAL_POOL_ADDRESS,
       web3.toBigNumber(toBaseUnit(amount.number, decimals)),
@@ -71,30 +80,31 @@ const depositCollateralAsync = amount => {
         if (err) {
           console.error(err);
         } else {
-          marketjs
-            .depositCollateralAsync(
-              simExchange.contract.key,
-              new BigNumber(toBaseUnit(amount.number, decimals)),
-              txParams
-            )
-            .then(res => {
-              showMessage(
-                'success',
-                'Deposit successful, your transaction will process shortly.',
-                5
-              );
-
-              return res;
-            });
+          return web3.eth.getTransactionReceiptMined(res).then(function() {
+            marketjs
+              .depositCollateralAsync(
+                simExchange.contract.key,
+                new BigNumber(toBaseUnit(amount.number, decimals)),
+                txParams
+              )
+              .then(res => {
+                showMessage(
+                  'success',
+                  'Deposit successful, your transaction will process shortly.',
+                  5
+                );
+                return res;
+              });
+          });
         }
       }
     );
   });
 };
 
-const getUserAccountBalanceAsync = (contract, toString) => {
-  const marketjs = store.getState().marketjs;
-  const web3 = store.getState().web3.web3Instance;
+const getUserAccountBalanceAsync = (contract, toString, str = store) => {
+  const marketjs = str.getState().marketjs;
+  const web3 = str.getState().web3.web3Instance;
 
   return marketjs
     .getUserAccountBalanceAsync(contract.key, web3.eth.coinbase)
@@ -112,13 +122,42 @@ const getUserAccountBalanceAsync = (contract, toString) => {
     });
 };
 
+const tradeOrderAsync = (signedOrderJSON, str = store) => {
+  const { marketjs } = str.getState();
+  const web3 = str.getState().web3.web3Instance;
+  const signedOrder = JSON.parse(signedOrderJSON);
+
+  const txParams = {
+    from: web3.eth.coinbase,
+    gas: 40000
+  };
+  signedOrder.expirationTimestamp = new BigNumber(
+    signedOrder.expirationTimestamp
+  );
+
+  signedOrder.makerFee = new BigNumber(signedOrder.makerFee);
+  signedOrder.orderQty = new BigNumber(signedOrder.orderQty);
+  signedOrder.price = new BigNumber(signedOrder.price);
+  signedOrder.remainingQty = new BigNumber(signedOrder.remainingQty);
+  signedOrder.takerFee = new BigNumber(signedOrder.takerFee);
+  signedOrder.salt = new BigNumber(signedOrder.salt);
+
+  console.log('signedOrderJSON', signedOrder);
+
+  return marketjs
+    .tradeOrderAsync(signedOrder, signedOrder.orderQty, txParams)
+    .then(res => {
+      return res;
+    });
+};
+
 /**
  * @param amount the amount of collateral tokens you want to deposit
  * @returns boolean
  **/
-const withdrawCollateralAsync = amount => {
-  const { simExchange, marketjs } = store.getState();
-  const web3 = store.getState().web3.web3Instance;
+const withdrawCollateralAsync = (amount, str = store) => {
+  const { simExchange, marketjs } = str.getState();
+  const web3 = str.getState().web3.web3Instance;
 
   const txParams = {
     from: web3.eth.coinbase
@@ -151,5 +190,6 @@ export const MarketJS = {
   createSignedOrderAsync,
   depositCollateralAsync,
   getUserAccountBalanceAsync,
+  tradeOrderAsync,
   withdrawCollateralAsync
 };

@@ -7,7 +7,7 @@ import moment from 'moment';
 import Trades from '../../../src/components/SimExchange/Trades';
 import TradeContainer from '../../../src/components/SimExchange/TradeContainer';
 import { MarketJS } from '../../../src/util/marketjs/marketMiddleware';
-import Table from '../../../src/components/SimExchange/TradeComponents/Table';
+import Table from '../../../src/components/SimExchange/Trade/Table';
 import BigNumber from 'bignumber.js';
 
 const mockContract = {

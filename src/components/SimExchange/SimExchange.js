@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'antd';
-import { Route, Redirect, Switch, withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 
 import TopBar from './TopBar';
 import Trades from './Trades';
@@ -9,6 +8,9 @@ import Wallet from './Wallet';
 import FillOrder from './FillOrder';
 
 import '../../less/SimExchange.less';
+import OrderBook from './OrderBook/Orders';
+import TradeHistory from './TradeHistory/Trades';
+import TradeChart from './TradeChart/Chart';
 
 class SimExchange extends Component {
   componentDidMount() {
@@ -24,7 +26,7 @@ class SimExchange extends Component {
   }
 
   render() {
-    const { asks, bids, contract, contracts, location } = this.props;
+    const { asks, bids, contract, contracts } = this.props;
 
     if (!this.props.shouldRender) {
       return (
@@ -38,8 +40,12 @@ class SimExchange extends Component {
     }
 
     return (
-      <div style={{ padding: '15px' }}>
-        <Row type="flex" justify="space-between" className="contract-data">
+      <div style={{ padding: '15px' }} id="sim-exchange">
+        <Row
+          type="flex"
+          justify="space-between"
+          className="sim-ex-container contract-container"
+        >
           <TopBar
             contract={contract}
             contracts={contracts}
@@ -48,15 +54,25 @@ class SimExchange extends Component {
         </Row>
         <Row type="flex" justify="space-between">
           <Col span={5}>
-            <Wallet {...this.props} />
+            <div className="column-container">
+              <Wallet {...this.props} />
+              <Trades {...this.props} asks={asks} bids={bids} />
+            </div>
           </Col>
           <Col span={5}>
-            <Trades {...this.props} asks={asks} bids={bids} />
+            <div className="column-container">
+              <OrderBook />
+            </div>
           </Col>
           <Col span={8}>
-            <FillOrder {...this.props} />
+            <div className="column-container">
+              <TradeChart />
+              <FillOrder {...this.props} />
+            </div>
           </Col>
-          <Col span={6}>col-4</Col>
+          <Col span={6}>
+            <TradeHistory />
+          </Col>
         </Row>
       </div>
     );

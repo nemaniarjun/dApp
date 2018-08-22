@@ -9,9 +9,9 @@ import BigNumber from 'bignumber.js';
 import sinon from 'sinon';
 
 import Wallet from '../../../src/components/SimExchange/Wallet';
-import Table from '../../../src/components/SimExchange/WalletComponents/Table';
-import HeaderMenu from '../../../src/components/SimExchange/WalletComponents/HeaderMenu';
-import Form from '../../../src/components/SimExchange/WalletComponents/Form';
+import Table from '../../../src/components/SimExchange/Wallet/Table';
+import HeaderMenu from '../../../src/components/SimExchange/Wallet/HeaderMenu';
+import Form from '../../../src/components/SimExchange/Wallet/Form';
 
 import { MarketJS } from '../../../src/util/marketjs/marketMiddleware';
 

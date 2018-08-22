@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Row, Modal, Col } from 'antd';
+import { Row, Modal, Col } from 'antd';
 import { MarketJS } from '../../../util/marketjs/marketMiddleware';
 
 import Form from './Form';
@@ -93,53 +93,62 @@ class HeaderMenu extends Component {
     const contract = simExchange.contract;
 
     return (
-      <Row gutter={24} className="header-menu">
-        <Col span={12}>
-          <Card
-            title="Deposit Collateral"
-            extra={
-              contract && (
-                <span>
-                  Available:{' '}
-                  {`${this.state.availableCollateral}
-                  ${contract.COLLATERAL_TOKEN_SYMBOL}`}
-                </span>
-              )
-            }
-          >
-            <Form
-              collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}
-              onSubmit={this.onSubmit}
-              showModal={this.showModal}
-              type="deposit"
-              amount={amount}
-              className="deposit-form"
-            />
-          </Card>
+      <Row className="header-menu">
+        <Col span={24}>
+          {contract && (
+            <div>
+              <p>
+                Available Collateral:{' '}
+                {`${this.state.availableCollateral}
+              ${contract.COLLATERAL_TOKEN_SYMBOL}`}
+              </p>
+              <p>
+                Unallocated Collateral:{' '}
+                {`${this.state.availableCollateral}
+              ${contract.COLLATERAL_TOKEN_SYMBOL}`}
+              </p>
+            </div>
+          )}
+          <Form
+            collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}
+            onSubmit={this.onSubmit}
+            showModal={this.showModal}
+            type="deposit"
+            amount={amount}
+            className="deposit-form"
+          />
+          <Form
+            collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}
+            onSubmit={this.onSubmit}
+            showModal={this.showModal}
+            type="withdraw"
+            amount={amount}
+            className="deposit-form"
+          />
         </Col>
-        <Col span={12}>
-          <Card
-            title="Withdraw Collateral"
-            extra={
-              contract && (
-                <span>
-                  Available:{' '}
-                  {`${this.state.unallocatedCollateral}
-                  ${contract.COLLATERAL_TOKEN_SYMBOL}`}
-                </span>
-              )
-            }
-          >
-            <Form
-              collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}
-              onSubmit={this.onSubmit}
-              showModal={this.showModal}
-              type="withdraw"
-              amount={amount}
-              className="withdraw-form"
-            />
-          </Card>
-        </Col>
+        {/*<Col span={12}>*/}
+        {/*<Card*/}
+        {/*title="Withdraw Collateral"*/}
+        {/*extra={*/}
+        {/*contract && (*/}
+        {/*<span>*/}
+        {/*Available:{' '}*/}
+        {/*{`${this.state.unallocatedCollateral}*/}
+        {/*${contract.COLLATERAL_TOKEN_SYMBOL}`}*/}
+        {/*</span>*/}
+        {/*)*/}
+        {/*}*/}
+        {/*>*/}
+        {/*<Form*/}
+        {/*collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}*/}
+        {/*onSubmit={this.onSubmit}*/}
+        {/*showModal={this.showModal}*/}
+        {/*type="withdraw"*/}
+        {/*amount={amount}*/}
+        {/*className="withdraw-form"*/}
+        {/*/>*/}
+        {/*</Card>*/}
+        {/*</Col>*/}
         <Modal
           title="Confirmation required"
           visible={this.state.modal}

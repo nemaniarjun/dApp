@@ -1,10 +1,10 @@
-import './FillOrder.less';
+import '../../less/SimExchange/FillOrder.less';
 
 import React, { Component } from 'react';
-import { Layout, Input, Form, Button } from 'antd';
+import { Input, Form, Button } from 'antd';
 import { MarketJS } from '../../util/marketjs/marketMiddleware';
+import Header from './Header';
 
-const { Content } = Layout;
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
@@ -36,8 +36,9 @@ class FillOrder extends Component {
 
   render() {
     return (
-      <Layout>
-        <Content>
+      <div className="m-top-10">
+        <Header name="Fill Orders" />
+        <div className="sim-ex-container-with-header">
           <Form onSubmit={this.onSubmit}>
             <FormItem>
               <TextArea
@@ -57,8 +58,8 @@ class FillOrder extends Component {
               </Button>
             </FormItem>
           </Form>
-        </Content>
-      </Layout>
+        </div>
+      </div>
     );
   }
 }

@@ -96,8 +96,7 @@ class BuyTable extends Component {
   render() {
     return (
       <Fragment>
-        <Row gutter={24}>
-          <h1 className="table-header-title">Transfer</h1>
+        <Row>
           <Table dataSource={this.state.transactions} columns={columns} />
         </Row>
       </Fragment>

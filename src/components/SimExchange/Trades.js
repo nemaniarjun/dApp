@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 
 import TradeContainer from './TradeContainer';
 import { MarketJS } from '../../util/marketjs/marketMiddleware';
 
-import '../../less/Trades.less';
-
-const { Content } = Layout;
+import '../../less/SimExchange/Trades.less';
 
 class Trades extends Component {
   constructor(props) {
@@ -78,37 +76,35 @@ class Trades extends Component {
     const { simExchange } = this.props;
 
     return (
-      <Layout id="trading">
-        <Content>
-          <Row type="flex" justify="flex-start">
-            <span className="trading-balance">
-              Available for Trading: {unallocatedCollateral}{' '}
-              {simExchange.contract &&
-                simExchange.contract.COLLATERAL_TOKEN_SYMBOL}
-            </span>
-          </Row>
-          <Row type="flex" justify="space-around" gutter={24}>
-            <Col span={12}>
-              <TradeContainer
-                {...this.props}
-                type="bids"
-                market=""
-                data={buys}
-                contract={contract}
-              />
-            </Col>
-            <Col span={12}>
-              <TradeContainer
-                {...this.props}
-                type="asks"
-                market=""
-                data={sells}
-                contract={contract}
-              />
-            </Col>
-          </Row>
-        </Content>
-      </Layout>
+      <div id="trading" className="sim-ex-container m-top-10">
+        <Row type="flex" justify="flex-start">
+          <span className="trading-balance">
+            Available for Trading: {unallocatedCollateral}{' '}
+            {simExchange.contract &&
+              simExchange.contract.COLLATERAL_TOKEN_SYMBOL}
+          </span>
+        </Row>
+        <Row type="flex" justify="space-around">
+          <Col span={12}>
+            <TradeContainer
+              {...this.props}
+              type="bids"
+              market=""
+              data={buys}
+              contract={contract}
+            />
+          </Col>
+          <Col span={12}>
+            <TradeContainer
+              {...this.props}
+              type="asks"
+              market=""
+              data={sells}
+              contract={contract}
+            />
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

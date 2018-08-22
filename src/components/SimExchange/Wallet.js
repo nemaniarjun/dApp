@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { Tabs } from 'antd';
 
-import HeaderMenu from './WalletComponents/HeaderMenu';
-import Table from './WalletComponents/Table';
+import HeaderMenu from './Wallet/HeaderMenu';
+import Table from './Wallet/Table';
 
-const { Content } = Layout;
+import '../../less/SimExchange/Wallet.less';
+
+const TabPane = Tabs.TabPane;
 
 class Wallet extends Component {
   render() {
     return (
-      <Layout>
-        <Content>
-          <HeaderMenu {...this.props} />
-          <Table {...this.props} />
-        </Content>
-      </Layout>
+      <div className="sim-ex-container">
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Wallet" key="1">
+            <HeaderMenu {...this.props} />
+          </TabPane>
+          <TabPane tab="History" key="2">
+            <Table {...this.props} />
+          </TabPane>
+        </Tabs>
+      </div>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import Form from './TradeComponents/Form';
-import Table from './TradeComponents/Table';
+import Form from './Trade/Form';
+import Table from './Trade/Table';
 import uniqueId from 'lodash/uniqueId';
 import { MarketJS } from '../../util/marketjs/marketMiddleware';
 

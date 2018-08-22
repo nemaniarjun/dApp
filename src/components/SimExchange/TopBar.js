@@ -19,24 +19,20 @@ class TopBar extends Component {
     );
 
     return (
-      <div>
-        <Row type="flex" justify="space-between" gutter={24}>
-          <Col span={12}>
-            {contracts && (
-              <Dropdown overlay={menu}>
-                <Button>
-                  {contract ? contract.CONTRACT_NAME : 'Contracts'}{' '}
-                  <Icon type="down" />
-                </Button>
-              </Dropdown>
-            )}
+      <Row type="flex" justify="space-between">
+        <Col span={24}>
+          {contracts && (
+            <Dropdown overlay={menu}>
+              <Button>
+                {contract ? contract.CONTRACT_NAME : 'Contracts'}{' '}
+                <Icon type="down" />
+              </Button>
+            </Dropdown>
+          )}
 
-            {!contracts && (
-              <Loader message="Loading Contracts, Please Wait..." />
-            )}
-          </Col>
-        </Row>
-      </div>
+          {!contracts && <Loader message="Loading Contracts, Please Wait..." />}
+        </Col>
+      </Row>
     );
   }
 }

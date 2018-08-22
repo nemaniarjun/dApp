@@ -27,11 +27,62 @@
     }
 }
 
-.contract-data {
-    background: #181e26;
-    border: 1px solid #2b323b;
-    border-radius: 4px;
+#sim-exchange {
+    .column-container {
+        padding-right: 10px;
+    }
+
+    .sim-ex-header {
+        background-color: #13171f;
+        border: 1px solid #2b323b;
+        border-radius: 4px 4px 0 0;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 15px;
+    }
+
+    .sim-ex-container {
+        background: #181e26;
+        border: 1px solid #2b323b;
+        border-radius: 4px;
+        padding: 15px;
+    }
+
+    .sim-ex-container-with-header {
+        background: #181e26;
+        border: 1px solid #2b323b;
+        border-radius: 0 0 4px 4px;
+        padding: 0 15px 15px 15px;
+        margin-top: -1px;
+    }
+
+    .contract-container {
+        margin-bottom: 10px;
+        height: 45px;
+        line-height: 45px;
+        padding: 0;
+
+        .loader {
+            display: contents;
+            margin-left: 15px;
+            img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        button {
+            height: 45px;
+            border: none;
+            border-radius: 0;
+
+            &:hover {
+                background-color: #13171f;
+            }
+        }
+    }
 }
+
 .details-info {
     word-wrap: break-word;
 }

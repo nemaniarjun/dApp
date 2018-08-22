@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import Trades from '../../../src/components/SimExchange/Trades';
-import TradeContainer from '../../../src/components/SimExchange/TradeContainer';
+import Trades from '../../../src/components/SimExchange/Trade/Trades';
+import TradeContainer from '../../../src/components/SimExchange/Trade/TradeContainer';
 import { MarketJS } from '../../../src/util/marketjs/marketMiddleware';
 import Table from '../../../src/components/SimExchange/Trade/Table';
 import BigNumber from 'bignumber.js';

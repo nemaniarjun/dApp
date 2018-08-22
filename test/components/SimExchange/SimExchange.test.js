@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import SimExchange from '../../../src/components/SimExchange/SimExchange';
-import Trades from '../../../src/components/SimExchange/Trades';
+import Trades from '../../../src/components/SimExchange/Trade/Trades';
 import Wallet from '../../../src/components/SimExchange/Wallet';
 
 describe('SimExchange', () => {

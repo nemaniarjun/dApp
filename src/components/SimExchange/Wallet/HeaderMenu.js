@@ -103,8 +103,8 @@ class HeaderMenu extends Component {
               ${contract.COLLATERAL_TOKEN_SYMBOL}`}
               </p>
               <p>
-                Unallocated Collateral:{' '}
-                {`${this.state.availableCollateral}
+                Available for Trading:{' '}
+                {`${this.state.unallocatedCollateral}
               ${contract.COLLATERAL_TOKEN_SYMBOL}`}
               </p>
             </div>
@@ -126,29 +126,6 @@ class HeaderMenu extends Component {
             className="deposit-form"
           />
         </Col>
-        {/*<Col span={12}>*/}
-        {/*<Card*/}
-        {/*title="Withdraw Collateral"*/}
-        {/*extra={*/}
-        {/*contract && (*/}
-        {/*<span>*/}
-        {/*Available:{' '}*/}
-        {/*{`${this.state.unallocatedCollateral}*/}
-        {/*${contract.COLLATERAL_TOKEN_SYMBOL}`}*/}
-        {/*</span>*/}
-        {/*)*/}
-        {/*}*/}
-        {/*>*/}
-        {/*<Form*/}
-        {/*collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}*/}
-        {/*onSubmit={this.onSubmit}*/}
-        {/*showModal={this.showModal}*/}
-        {/*type="withdraw"*/}
-        {/*amount={amount}*/}
-        {/*className="withdraw-form"*/}
-        {/*/>*/}
-        {/*</Card>*/}
-        {/*</Col>*/}
         <Modal
           title="Confirmation required"
           visible={this.state.modal}

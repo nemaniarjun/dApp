@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import Form from './Trade/Form';
-import Table from './Trade/Table';
+import Form from './Form';
 import uniqueId from 'lodash/uniqueId';
-import { MarketJS } from '../../util/marketjs/marketMiddleware';
+import { MarketJS } from '../../../util/marketjs/marketMiddleware';
 
 import { Modal, Table as AntTable } from 'antd';
 
@@ -85,8 +84,6 @@ class Buy extends Component {
             order={order}
           />
         </div>
-
-        <Table {...this.props} title={`${this.props.type}`} />
 
         {order && (
           <Modal

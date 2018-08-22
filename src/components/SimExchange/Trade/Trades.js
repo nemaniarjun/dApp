@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Row, Col, Tabs } from 'antd';
 
 import TradeContainer from './TradeContainer';
-import { MarketJS } from '../../util/marketjs/marketMiddleware';
+import { MarketJS } from '../../../util/marketjs/marketMiddleware';
 
-import '../../less/SimExchange/Trades.less';
+import '../../../less/SimExchange/Trades.less';
 
 const TabPane = Tabs.TabPane;
 
@@ -74,18 +74,10 @@ class Trades extends Component {
   }
 
   render() {
-    const { unallocatedCollateral, buys, sells, contract } = this.state;
-    const { simExchange } = this.props;
+    const { buys, sells, contract } = this.state;
 
     return (
       <div id="trading" className="sim-ex-container m-top-10">
-        <Row type="flex" justify="flex-start">
-          <span className="trading-balance">
-            Available for Trading: {unallocatedCollateral}{' '}
-            {simExchange.contract &&
-              simExchange.contract.COLLATERAL_TOKEN_SYMBOL}
-          </span>
-        </Row>
         <Row type="flex" justify="space-around">
           <Col span={24}>
             <Tabs defaultActiveKey="1">

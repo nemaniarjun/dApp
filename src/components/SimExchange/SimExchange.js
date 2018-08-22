@@ -3,9 +3,9 @@ import { Col, Row } from 'antd';
 import { withRouter } from 'react-router';
 
 import TopBar from './TopBar';
-import Trades from './Trades';
+import Trades from './Trade/Trades';
 import Wallet from './Wallet';
-import FillOrder from './FillOrder';
+import OrdersPositionsFills from './OrdersPositionsFills/Index';
 
 import '../../less/SimExchange.less';
 import OrderBook from './OrderBook/Orders';
@@ -67,7 +67,7 @@ class SimExchange extends Component {
           <Col span={8}>
             <div className="column-container">
               <TradeChart />
-              <FillOrder {...this.props} />
+              <OrdersPositionsFills {...this.props} />
             </div>
           </Col>
           <Col span={6}>

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Tabs } from 'antd';
 
 import TradeContainer from './TradeContainer';
 import { MarketJS } from '../../util/marketjs/marketMiddleware';
 
 import '../../less/SimExchange/Trades.less';
+
+const TabPane = Tabs.TabPane;
 
 class Trades extends Component {
   constructor(props) {
@@ -85,23 +87,27 @@ class Trades extends Component {
           </span>
         </Row>
         <Row type="flex" justify="space-around">
-          <Col span={12}>
-            <TradeContainer
-              {...this.props}
-              type="bids"
-              market=""
-              data={buys}
-              contract={contract}
-            />
-          </Col>
-          <Col span={12}>
-            <TradeContainer
-              {...this.props}
-              type="asks"
-              market=""
-              data={sells}
-              contract={contract}
-            />
+          <Col span={24}>
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="Buy" key="1">
+                <TradeContainer
+                  {...this.props}
+                  type="bids"
+                  market=""
+                  data={buys}
+                  contract={contract}
+                />
+              </TabPane>
+              <TabPane tab="Sell" key="2">
+                <TradeContainer
+                  {...this.props}
+                  type="asks"
+                  market=""
+                  data={sells}
+                  contract={contract}
+                />
+              </TabPane>
+            </Tabs>
           </Col>
         </Row>
       </div>

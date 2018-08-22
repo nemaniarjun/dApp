@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Card, Button, DatePicker } from 'antd';
+import { Form, Input, Button, DatePicker } from 'antd';
 import moment from 'moment';
 
 const FormItem = Form.Item;
@@ -61,89 +61,87 @@ class BuyForm extends Component {
 
     return (
       <div>
-        <Card title={`${types[this.props.type]} ${this.props.market}`}>
-          <Form onSubmit={this.handleSubmit}>
-            <FormItem
-              validateStatus={qtyError ? 'error' : ''}
-              help={qtyError || ''}
-            >
-              {getFieldDecorator('qty', {
-                rules: [{ required: true, message: 'Please enter a quantity' }]
-              })(
-                <Input
-                  disabled={this.props.simExchange.contract === null}
-                  addonAfter=""
-                  min="0"
-                  step="0.01"
-                  type="number"
-                  placeholder="Quantity"
-                />
-              )}
-            </FormItem>
+        <Form onSubmit={this.handleSubmit}>
+          <FormItem
+            validateStatus={qtyError ? 'error' : ''}
+            help={qtyError || ''}
+          >
+            {getFieldDecorator('qty', {
+              rules: [{ required: true, message: 'Please enter a quantity' }]
+            })(
+              <Input
+                disabled={this.props.simExchange.contract === null}
+                addonAfter=""
+                min="0"
+                step="0.01"
+                type="number"
+                placeholder="Quantity"
+              />
+            )}
+          </FormItem>
 
-            <FormItem
-              validateStatus={priceError ? 'error' : ''}
-              help={priceError || ''}
-            >
-              {getFieldDecorator('price', {
-                rules: [{ required: true, message: 'Please enter a price' }]
-              })(
-                <Input
-                  addonAfter={
-                    simExchange.contract &&
-                    simExchange.contract.COLLATERAL_TOKEN_SYMBOL
-                  }
-                  disabled={this.props.simExchange.contract === null}
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="Price"
-                />
-              )}
-            </FormItem>
+          <FormItem
+            validateStatus={priceError ? 'error' : ''}
+            help={priceError || ''}
+          >
+            {getFieldDecorator('price', {
+              rules: [{ required: true, message: 'Please enter a price' }]
+            })(
+              <Input
+                addonAfter={
+                  simExchange.contract &&
+                  simExchange.contract.COLLATERAL_TOKEN_SYMBOL
+                }
+                disabled={this.props.simExchange.contract === null}
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Price"
+              />
+            )}
+          </FormItem>
 
-            <FormItem
-              validateStatus={expirationError ? 'error' : ''}
-              help={expirationError || ''}
-            >
-              {getFieldDecorator('expirationTimestamp', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Please select an expiration date and time.'
-                  }
-                ]
-              })(
-                <DatePicker
-                  showTime
-                  disabledDate={current => {
-                    const now = moment().startOf('day');
-                    return (
-                      current &&
-                      (current.valueOf() < moment().endOf('day') ||
-                        current.diff(now, 'days') > 60)
-                    );
-                  }}
-                  disabled={this.props.simExchange.contract === null}
-                  showToday={false}
-                  format="YYYY-MM-DD HH:mm:ss ([UTC/GMT]Z)"
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
-
-            <FormItem>
-              <Button
-                disabled={this.hasErrors(getFieldsError())}
-                type="primary"
-                htmlType="submit"
+          <FormItem
+            validateStatus={expirationError ? 'error' : ''}
+            help={expirationError || ''}
+          >
+            {getFieldDecorator('expirationTimestamp', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please select an expiration date and time.'
+                }
+              ]
+            })(
+              <DatePicker
+                showTime
+                disabledDate={current => {
+                  const now = moment().startOf('day');
+                  return (
+                    current &&
+                    (current.valueOf() < moment().endOf('day') ||
+                      current.diff(now, 'days') > 60)
+                  );
+                }}
+                disabled={this.props.simExchange.contract === null}
+                showToday={false}
+                format="YYYY-MM-DD HH:mm:ss ([UTC/GMT]Z)"
                 style={{ width: '100%' }}
-              >
-                {types[this.props.type]}
-              </Button>
-            </FormItem>
-          </Form>
-        </Card>
+              />
+            )}
+          </FormItem>
+
+          <FormItem>
+            <Button
+              disabled={this.hasErrors(getFieldsError())}
+              type="primary"
+              htmlType="submit"
+              style={{ width: '100%' }}
+            >
+              {types[this.props.type]}
+            </Button>
+          </FormItem>
+        </Form>
       </div>
     );
   }

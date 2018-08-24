@@ -46,12 +46,6 @@ const createSignedOrderAsync = (orderData, str = store) => {
 };
 
 /**
- * @param contract a valid market contract (required)
- * @param toString boolean - if true will convert the response to a fixed number
- * string otherwise returns bigNumber(optional)
- * @returns BigNumber or String value of an addresses unallocated collateral
- **/
-/**
  * @param amount the amount of collateral tokens you want to deposit
  * @returns boolean
  **/
@@ -64,42 +58,31 @@ const depositCollateralAsync = (amount, str = store) => {
     from: web3.eth.coinbase
   };
 
-  let collateralTokenContractInstance = web3.eth
-    .contract(abi)
-    .at(simExchange.contract.COLLATERAL_TOKEN_ADDRESS);
-
-  collateralTokenContractInstance.decimals.call((err, decimals) => {
-    // NOTE: we are calling approve on the abi used above, this it outside of MARKET.js and therefore
-    // needs to use the market collateral pool address.  We will add functionality in MARKET.js to simplify this
-    // and no longer need to use the Collateral Pool Address.
-    collateralTokenContractInstance.approve(
-      simExchange.contract.MARKET_COLLATERAL_POOL_ADDRESS,
-      web3.toBigNumber(toBaseUnit(amount.number, decimals)),
-      txParams,
-      (err, res) => {
-        if (err) {
-          console.error(err);
-        } else {
-          return web3.eth.getTransactionReceiptMined(res).then(function() {
-            marketjs
-              .depositCollateralAsync(
-                simExchange.contract.key,
-                new BigNumber(toBaseUnit(amount.number, decimals)),
-                txParams
-              )
-              .then(res => {
-                showMessage(
-                  'success',
-                  'Deposit successful, your transaction will process shortly.',
-                  5
-                );
-                return res;
-              });
+  marketjs
+    .approveCollateralDepositAsync(
+      simExchange.contract.key,
+      new BigNumber(toBaseUnit(amount.number, 18)),
+      txParams
+    )
+    .then(res => {
+      console.log('res', res);
+      return web3.eth.getTransactionReceiptMined(res).then(function() {
+        marketjs
+          .depositCollateralAsync(
+            simExchange.contract.key,
+            new BigNumber(toBaseUnit(amount.number, 18)),
+            txParams
+          )
+          .then(res => {
+            showMessage(
+              'success',
+              'Deposit successful, your transaction will process shortly.',
+              5
+            );
+            return res;
           });
-        }
-      }
-    );
-  });
+      });
+    });
 };
 
 const getUserUnallocatedCollateralBalanceAsync = (

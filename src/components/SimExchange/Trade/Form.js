@@ -62,9 +62,11 @@ class BuyForm extends Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
+          <h4 className="header">Quantity</h4>
           <FormItem
             validateStatus={qtyError ? 'error' : ''}
             help={qtyError || ''}
+            className="m-bottom-15"
           >
             {getFieldDecorator('qty', {
               rules: [{ required: true, message: 'Please enter a quantity' }]
@@ -75,14 +77,17 @@ class BuyForm extends Component {
                 min="0"
                 step="0.01"
                 type="number"
-                placeholder="Quantity"
+                placeholder="0"
+                size="small"
               />
             )}
           </FormItem>
 
+          <h4 className="header">Price</h4>
           <FormItem
             validateStatus={priceError ? 'error' : ''}
             help={priceError || ''}
+            className="m-bottom-15"
           >
             {getFieldDecorator('price', {
               rules: [{ required: true, message: 'Please enter a price' }]
@@ -96,11 +101,13 @@ class BuyForm extends Component {
                 type="number"
                 min="0"
                 step="0.01"
-                placeholder="Price"
+                placeholder="0"
+                size="small"
               />
             )}
           </FormItem>
 
+          <h4 className="header">Expiration</h4>
           <FormItem
             validateStatus={expirationError ? 'error' : ''}
             help={expirationError || ''}
@@ -127,6 +134,7 @@ class BuyForm extends Component {
                 showToday={false}
                 format="YYYY-MM-DD HH:mm:ss ([UTC/GMT]Z)"
                 style={{ width: '100%' }}
+                size="small"
               />
             )}
           </FormItem>
@@ -137,8 +145,9 @@ class BuyForm extends Component {
               type="primary"
               htmlType="submit"
               style={{ width: '100%' }}
+              className="sim-ex-action-btn"
             >
-              {types[this.props.type]}
+              Place {types[this.props.type]} Order
             </Button>
           </FormItem>
         </Form>

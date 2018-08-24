@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import capitalize from 'lodash/capitalize';
-import { Form as AntForm, Input, Button } from 'antd';
+import { Form as AntForm, Input, Button, Row, Col } from 'antd';
+
+import widthdrawIcon from '../../../img/icons/corner-left-up.svg';
 
 const FormItem = AntForm.Item;
 
@@ -18,15 +19,17 @@ class Form extends Component {
     });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-
+  handleSubmit(type) {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.showModal();
-        this.props.onSubmit({ ...values, type: this.props.type });
+        this.props.onSubmit({ ...values, type: type });
       }
     });
+  }
+
+  onClickSubmit(type) {
+    this.handleSubmit(type);
   }
 
   hasErrors(fieldsError) {
@@ -35,7 +38,6 @@ class Form extends Component {
 
   render() {
     const { form } = this.props;
-    let { type } = this.props;
 
     const {
       getFieldDecorator,
@@ -45,13 +47,13 @@ class Form extends Component {
     } = form;
 
     const numberError = isFieldTouched('number') && getFieldError('number');
-    type = capitalize(type);
 
     return (
-      <AntForm onSubmit={this.handleSubmit}>
+      <AntForm className="m-top-20">
         <FormItem
           validateStatus={numberError ? 'error' : ''}
           help={numberError || ''}
+          className="m-bottom-15"
         >
           {getFieldDecorator('number', {
             rules: [{ required: true, message: 'Please enter a number' }]
@@ -62,26 +64,49 @@ class Form extends Component {
               min="0"
               step="0.001"
               placeholder="10.000"
-              size="large"
-              className={
-                type === 'Deposit' ? 'deposit-input' : 'withdraw-input'
-              }
+              size="small"
             />
           )}
         </FormItem>
-        <FormItem>
-          <Button
-            disabled={this.hasErrors(getFieldsError())}
-            htmlType="submit"
-            type="primary"
-            style={{ width: '100%' }}
-            className={
-              type === 'Deposit' ? 'deposit-button' : 'withdraw-button'
-            }
-          >
-            {type}
-          </Button>
-        </FormItem>
+        <Row type="flex">
+          <Col span={12} style={{ paddingRight: '5px' }}>
+            <Button
+              disabled={this.hasErrors(getFieldsError())}
+              onClick={this.onClickSubmit.bind(this, 'deposit')}
+              type="primary"
+              style={{ width: '100%' }}
+              className="sim-ex-action-btn"
+            >
+              <img
+                alt="Deposit"
+                src={widthdrawIcon}
+                style={{
+                  opacity: this.hasErrors(getFieldsError()) ? '0.2' : '1'
+                }}
+              />
+              Deposit
+            </Button>
+          </Col>
+          <Col span={12} style={{ paddingLeft: '5px' }}>
+            <Button
+              disabled={this.hasErrors(getFieldsError())}
+              onClick={this.onClickSubmit.bind(this, 'widthdraw')}
+              type="primary"
+              style={{ width: '100%' }}
+              className="sim-ex-action-btn"
+            >
+              Widthdraw
+              <img
+                alt="Widthdraw"
+                src={widthdrawIcon}
+                style={{
+                  opacity: this.hasErrors(getFieldsError()) ? '0.2' : '1',
+                  transform: 'scaleX(-1) scaleY(-1)'
+                }}
+              />
+            </Button>
+          </Col>
+        </Row>
       </AntForm>
     );
   }

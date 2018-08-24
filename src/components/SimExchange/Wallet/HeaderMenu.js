@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Modal, Col } from 'antd';
+import { Row, Modal, Col, Tooltip, Icon } from 'antd';
 import { MarketJS } from '../../../util/marketjs/marketMiddleware';
 
 import Form from './Form';
@@ -55,7 +55,6 @@ class HeaderMenu extends Component {
   handleOk() {
     this.setState({ modal: false });
     const { amount } = this.state;
-
     switch (amount.type) {
       case 'deposit':
         MarketJS.depositCollateralAsync(amount);
@@ -95,36 +94,44 @@ class HeaderMenu extends Component {
     return (
       <Row className="header-menu">
         <Col span={24}>
-          {contract && (
-            <div>
-              <p>
-                Available Collateral:{' '}
-                {`${this.state.availableCollateral}
-              ${contract.COLLATERAL_TOKEN_SYMBOL}`}
-              </p>
-              <p>
-                Available for Trading:{' '}
-                {`${this.state.unallocatedCollateral}
-              ${contract.COLLATERAL_TOKEN_SYMBOL}`}
-              </p>
+          <div className="available-collateral">
+            <div style={{ opacity: '0.7' }}>
+              Available Collateral
+              <Tooltip title="This is your main balance">
+                <Icon type="info-circle-o" className="info-icon" />
+              </Tooltip>
             </div>
-          )}
-          <Form
-            collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}
-            onSubmit={this.onSubmit}
-            showModal={this.showModal}
-            type="deposit"
-            amount={amount}
-            className="deposit-form"
-          />
-          <Form
-            collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}
-            onSubmit={this.onSubmit}
-            showModal={this.showModal}
-            type="withdraw"
-            amount={amount}
-            className="deposit-form"
-          />
+            <div style={{ fontWeight: '600' }}>
+              {contract && (
+                <span>
+                  {this.state.availableCollateral}{' '}
+                  {contract.COLLATERAL_TOKEN_SYMBOL}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="unallocated-collateral">
+            <h2 style={{ fontWeight: '300', opacity: '0.7' }}>
+              Available for Trading
+              <Tooltip title="This is your collateral balance">
+                <Icon type="info-circle-o" className="info-icon" />
+              </Tooltip>
+            </h2>
+            {contract && (
+              <h1>
+                {this.state.unallocatedCollateral}{' '}
+                <span style={{ fontSize: '14px', opacity: '0.7' }}>
+                  {contract.COLLATERAL_TOKEN_SYMBOL}
+                </span>
+              </h1>
+            )}
+            <Form
+              collateralToken={contract && contract.COLLATERAL_TOKEN_SYMBOL}
+              onSubmit={this.onSubmit}
+              showModal={this.showModal}
+              amount={amount}
+            />
+          </div>
         </Col>
         <Modal
           title="Confirmation required"

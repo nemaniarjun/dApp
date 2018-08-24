@@ -53,25 +53,27 @@ class SimExchange extends Component {
           />
         </Row>
         <Row type="flex" justify="space-between">
-          <Col span={5}>
+          <Col lg={6} xl={5}>
             <div className="column-container">
               <Wallet {...this.props} />
               <Trades {...this.props} asks={asks} bids={bids} />
             </div>
           </Col>
-          <Col span={5}>
+          <Col lg={5} xl={5}>
             <div className="column-container">
               <OrderBook />
             </div>
           </Col>
-          <Col span={8}>
+          <Col lg={7} xl={9}>
             <div className="column-container">
               <TradeChart />
               <OrdersPositionsFills {...this.props} />
             </div>
           </Col>
-          <Col span={6}>
-            <TradeHistory />
+          <Col lg={6} xl={5}>
+            <div className="column-container" style={{ paddingRight: '0' }}>
+              <TradeHistory />
+            </div>
           </Col>
         </Row>
       </div>

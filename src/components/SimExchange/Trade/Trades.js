@@ -82,22 +82,26 @@ class Trades extends Component {
           <Col span={24}>
             <Tabs defaultActiveKey="1">
               <TabPane tab="Buy" key="1">
-                <TradeContainer
-                  {...this.props}
-                  type="bids"
-                  market=""
-                  data={buys}
-                  contract={contract}
-                />
+                <div className="sim-ex-inner-container">
+                  <TradeContainer
+                    {...this.props}
+                    type="bids"
+                    market=""
+                    data={buys}
+                    contract={contract}
+                  />
+                </div>
               </TabPane>
               <TabPane tab="Sell" key="2">
-                <TradeContainer
-                  {...this.props}
-                  type="asks"
-                  market=""
-                  data={sells}
-                  contract={contract}
-                />
+                <div className="sim-ex-inner-container">
+                  <TradeContainer
+                    {...this.props}
+                    type="asks"
+                    market=""
+                    data={sells}
+                    contract={contract}
+                  />
+                </div>
               </TabPane>
             </Tabs>
           </Col>

@@ -102,12 +102,16 @@ const depositCollateralAsync = (amount, str = store) => {
   });
 };
 
-const getUserAccountBalanceAsync = (contract, toString, str = store) => {
+const getUserUnallocatedCollateralBalanceAsync = (
+  contract,
+  toString,
+  str = store
+) => {
   const marketjs = str.getState().marketjs;
   const web3 = str.getState().web3.web3Instance;
 
   return marketjs
-    .getUserAccountBalanceAsync(contract.key, web3.eth.coinbase)
+    .getUserUnallocatedCollateralBalanceAsync(contract.key, web3.eth.coinbase)
     .then(res => {
       switch (toString) {
         case true:
@@ -186,10 +190,27 @@ const withdrawCollateralAsync = (amount, str = store) => {
   });
 };
 
+const getUserBalanceAsync = (tokenAddress, toString, str = store) => {
+  const marketjs = str.getState().marketjs;
+  const web3 = str.getState().web3.web3Instance;
+
+  return marketjs.getUserBalanceAsync(tokenAddress).then(res => {
+    switch (toString) {
+      case true:
+        const tokenBalance = web3.fromWei(res.toFixed(), 'ether').toString();
+
+        return tokenBalance;
+      default:
+        return res;
+    }
+  });
+};
+
 export const MarketJS = {
   createSignedOrderAsync,
   depositCollateralAsync,
-  getUserAccountBalanceAsync,
+  getUserUnallocatedCollateralBalanceAsync,
   tradeOrderAsync,
-  withdrawCollateralAsync
+  withdrawCollateralAsync,
+  getUserBalanceAsync
 };

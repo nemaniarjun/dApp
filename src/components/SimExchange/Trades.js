@@ -62,13 +62,14 @@ class Trades extends Component {
     const { simExchange } = props;
 
     if (simExchange) {
-      MarketJS.getUserAccountBalanceAsync(simExchange.contract, true).then(
-        balance => {
-          this.setState({
-            unallocatedCollateral: balance
-          });
-        }
-      );
+      MarketJS.getUserUnallocatedCollateralBalanceAsync(
+        simExchange.contract,
+        true
+      ).then(balance => {
+        this.setState({
+          unallocatedCollateral: balance
+        });
+      });
     }
   }
 

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Card, Row, Modal, Col } from 'antd';
 import { MarketJS } from '../../../util/marketjs/marketMiddleware';
 
-import { getTokenBalance } from '../../../util/utils';
-
 import Form from './Form';
 
 class HeaderMenu extends Component {
@@ -73,23 +71,20 @@ class HeaderMenu extends Component {
   async getBalances(props) {
     const { simExchange } = props;
 
-    await MarketJS.getUserAccountBalanceAsync(simExchange.contract, true).then(
-      balance => {
-        this.setState({
-          unallocatedCollateral: balance
-        });
-      }
-    );
-
-    getTokenBalance(
+    await MarketJS.getUserUnallocatedCollateralBalanceAsync(
+      simExchange.contract,
+      true
+    ).then(balance => {
+      this.setState({
+        unallocatedCollateral: balance
+      });
+    });
+    await MarketJS.getUserBalance(
       simExchange.contract.COLLATERAL_TOKEN_ADDRESS,
-      true,
-      availableCollateral => {
-        this.setState({
-          availableCollateral: availableCollateral
-        });
-      }
-    );
+      true
+    ).then(availableCollateral => {
+      this.setState({ availableCollateral });
+    });
   }
 
   render() {

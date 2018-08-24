@@ -54,7 +54,7 @@ describe('Trades', () => {
   it('should getUnallocatedCollateral', async () => {
     let spy = sinon.spy(tradesContainer.instance(), 'getUnallocatedCollateral');
     sinon
-      .stub(MarketJS, 'getUserAccountBalanceAsync')
+      .stub(MarketJS, 'getUserUnallocatedCollateralBalanceAsync')
       .resolves(
         tradesContainer.setState({ unallocatedCollateral: 100000000000000000 })
       );

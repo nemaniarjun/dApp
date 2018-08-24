@@ -92,17 +92,20 @@ describe('marketMiddleware', () => {
     it('should deposit availlableCollateral to a MARKET contract', () => {});
   });
 
-  describe('getUserAccountBalanceAsync', () => {
+  describe('getUserUnallocatedCollateralBalanceAsync', () => {
     it('should return a users unallocatedCollateral as a string', () => {
       mockStore.getState().marketjs.then(async marketjs => {
-        let spy = sinon.spy(MarketJS, 'getUserAccountBalanceAsync');
+        let spy = sinon.spy(
+          MarketJS,
+          'getUserUnallocatedCollateralBalanceAsync'
+        );
         sinon
-          .stub(marketjs, 'getUserAccountBalanceAsync')
+          .stub(marketjs, 'getUserUnallocatedCollateralBalanceAsync')
           .callsFake(function then() {
             return '1.000000000000000000';
           });
 
-        await MarketJS.getUserAccountBalanceAsync(
+        await MarketJS.getUserUnallocatedCollateralBalanceAsync(
           mockContract.contract,
           true,
           mockStore

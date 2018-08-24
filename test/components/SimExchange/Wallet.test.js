@@ -14,7 +14,6 @@ import HeaderMenu from '../../../src/components/SimExchange/WalletComponents/Hea
 import Form from '../../../src/components/SimExchange/WalletComponents/Form';
 
 import { MarketJS } from '../../../src/util/marketjs/marketMiddleware';
-import getTokenBalance from '../../../src/util/utils';
 
 const mockContract = {
   key: '0x6467854f25ff1f1ff8c11a717faf03e409b53635',
@@ -131,7 +130,7 @@ describe('HeaderMenu', () => {
 
   it('should getBalances when a contract is selected', () => {
     sinon
-      .stub(MarketJS, 'getUserAccountBalanceAsync')
+      .stub(MarketJS, 'getUserUnallocatedCollateralBalanceAsync')
       .resolves('1000000000000000');
     let spy = sinon.spy(headerMenu.instance(), 'getBalances');
     headerMenu.update();

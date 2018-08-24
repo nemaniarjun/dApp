@@ -1,6 +1,4 @@
 import { message } from 'antd';
-import store from '../store';
-import abi from 'human-standard-token-abi';
 
 import copy from 'copy-to-clipboard';
 import { NULL_ADDRESS } from '../constants';
@@ -92,37 +90,6 @@ export const getLocationOrigin = () => window.location.origin;
  */
 export const isTestnetOrMainnet = network => {
   return network !== 'truffle' && network !== 'unknown';
-};
-
-/**
- * Get an ERC20 Token Balance
- *
- * @param tokenAddress
- * @param toString
- * @param callback function for returning response from the web3 callback
- * @return BigNumber or String balance of users metamask address
- */
-export const getTokenBalance = (tokenAddress, toString, callback) => {
-  let web3 = store.getState().web3.web3Instance;
-
-  let contractInstance = web3.eth.contract(abi).at(tokenAddress);
-
-  return contractInstance.balanceOf.call(web3.eth.coinbase, (err, res) => {
-    if (err) {
-      console.error(err);
-    } else {
-      switch (toString) {
-        case true:
-          const availableCollateral = web3
-            .fromWei(res.toFixed(), 'ether')
-            .toString();
-
-          return callback(availableCollateral);
-        default:
-          return callback(res);
-      }
-    }
-  });
 };
 
 /**

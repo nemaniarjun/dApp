@@ -55,8 +55,8 @@ code {
 
     .deploy-contract-container {
         border-radius: 4px;
-        background-color: rgb(17, 22, 28);
-        border: solid 2px #0f141b;
+        background: #181e26;
+        border: 1px solid #2b323b;
     }
 
     .quick-deploy {
@@ -116,10 +116,13 @@ code {
         border-color: #444444;
         color: #444444;
     }
+    .ant-select-selection {
+        background-color: @input-bg;
+    }
     .ant-input-number,
     .ant-select-selection,
     .ant-select-open .ant-select-selection {
-        border: 1px solid #fff;
+        border: 1px solid @input-border-color;
     }
     .ant-input-disabled,
     .ant-input-number-input[disabled] {
@@ -375,10 +378,13 @@ code {
     color: @primary-color;
 }
 .m-top-10 {
-    margin-top: 30px;
+    margin-top: 10px;
+}
+.m-top-15 {
+    margin-top: 15px;
 }
 .m-top-20 {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 .m-top-30 {
     margin-top: 30px;
@@ -389,6 +395,9 @@ code {
 .m-bottom-10 {
     margin-bottom: 10px;
 }
+.m-bottom-15 {
+    margin-bottom: 15px;
+}
 .m-bottom-20 {
     margin-bottom: 20px;
 }
@@ -397,6 +406,30 @@ code {
 }
 .m-bottom-40 {
     margin-bottom: 40px;
+}
+.p-top-10 {
+    padding-top: 10px;
+}
+.p-top-20 {
+    padding-top: 20px;
+}
+.p-top-30 {
+    padding-top: 30px;
+}
+.p-top-40 {
+    padding-top: 40px;
+}
+.p-bottom-10 {
+    padding-bottom: 10px;
+}
+.p-bottom-20 {
+    padding-bottom: 20px;
+}
+.p-bottom-30 {
+    padding-bottom: 30px;
+}
+.p-bottom-40 {
+    padding-bottom: 40px;
 }
 
 /* Mobile screens */

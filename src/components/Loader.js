@@ -3,7 +3,7 @@ import React from 'react';
 import splash from '../animations/splash.gif';
 
 // Styles
-import '../less/components/Loader.less';
+import '../less/Loader.less';
 
 function Loader(props) {
   return (

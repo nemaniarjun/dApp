@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Tabs } from 'antd';
 
 import TradeContainer from './TradeContainer';
-import { MarketJS } from '../../util/marketjs/marketMiddleware';
+import { MarketJS } from '../../../util/marketjs/marketMiddleware';
 
-import '../../less/Trades.less';
+import '../../../less/SimExchange/Trades.less';
 
-const { Content } = Layout;
+const TabPane = Tabs.TabPane;
 
 class Trades extends Component {
   constructor(props) {
@@ -74,21 +74,13 @@ class Trades extends Component {
   }
 
   render() {
-    const { unallocatedCollateral, buys, sells, contract } = this.state;
-    const { simExchange } = this.props;
+    const { buys, sells, contract } = this.state;
 
     return (
-      <Layout id="trading">
-        <Content>
-          <Row type="flex" justify="flex-start">
-            <span className="trading-balance">
-              Available for Trading: {unallocatedCollateral}{' '}
-              {simExchange.contract &&
-                simExchange.contract.COLLATERAL_TOKEN_SYMBOL}
-            </span>
-          </Row>
-          <Row type="flex" justify="space-around" gutter={24}>
-            <Col span={12}>
+      <div id="trading" className="sim-ex-container m-top-10">
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Buy" key="1">
+            <div className="sim-ex-inner-container">
               <TradeContainer
                 {...this.props}
                 type="bids"
@@ -96,8 +88,10 @@ class Trades extends Component {
                 data={buys}
                 contract={contract}
               />
-            </Col>
-            <Col span={12}>
+            </div>
+          </TabPane>
+          <TabPane tab="Sell" key="2">
+            <div className="sim-ex-inner-container">
               <TradeContainer
                 {...this.props}
                 type="asks"
@@ -105,10 +99,10 @@ class Trades extends Component {
                 data={sells}
                 contract={contract}
               />
-            </Col>
-          </Row>
-        </Content>
-      </Layout>
+            </div>
+          </TabPane>
+        </Tabs>
+      </div>
     );
   }
 }

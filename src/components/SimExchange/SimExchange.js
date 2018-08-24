@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Layout, Menu } from 'antd';
-import { Route, Redirect, Switch, withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Col, Row } from 'antd';
+import { withRouter } from 'react-router';
 
 import TopBar from './TopBar';
-import Trades from './Trades';
+import Trades from './Trade/Trades';
 import Wallet from './Wallet';
-import FillOrder from './FillOrder';
+import OrdersPositionsFills from './OrdersPositionsFills/Index';
 
-import './SimExchange.less';
-
-const { Content, Header, Sider } = Layout;
+import '../../less/SimExchange.less';
+import OrderBook from './OrderBook/Orders';
+import TradeHistory from './TradeHistory/Trades';
+import TradeChart from './TradeChart/Chart';
 
 class SimExchange extends Component {
   componentDidMount() {
@@ -26,7 +26,7 @@ class SimExchange extends Component {
   }
 
   render() {
-    const { asks, bids, contract, contracts, location } = this.props;
+    const { asks, bids, contract, contracts } = this.props;
 
     if (!this.props.shouldRender) {
       return (
@@ -40,61 +40,43 @@ class SimExchange extends Component {
     }
 
     return (
-      <Layout>
-        <Sider width={200}>
-          <Menu mode="inline" selectedKeys={[location.pathname]}>
-            <Menu.Item key="/exchange/trades/">
-              <Link to="/exchange/trades/">Trades</Link>
-            </Menu.Item>
-            <Menu.Item key="/exchange/wallet/">
-              <Link to="/exchange/wallet/">Wallet</Link>
-            </Menu.Item>
-            <Menu.Item key="/exchange/fill-order/">
-              <Link to="/exchange/fill-order/">Fill Order</Link>
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Content className="exchange-content">
-          <Header className="exchange-header">
-            {location.pathname !== '/exchange/fill-order/' ? (
-              <TopBar
-                contract={contract}
-                contracts={contracts}
-                onSelectContract={this.props.selectContract}
-              />
-            ) : (
-              <div>
-                <h3>Fill Order</h3>
-                <h5>Paste your ORDER JSON blob below to begin</h5>
-              </div>
-            )}
-          </Header>
-          <Switch>
-            <Route
-              path="/:url*"
-              exact
-              strict
-              render={props => <Redirect to={`${props.location.pathname}/`} />}
-            />
-            <Route
-              path="/exchange/trades/"
-              exact
-              render={() => <Trades {...this.props} asks={asks} bids={bids} />}
-            />
-            <Route
-              exact
-              path="/exchange/wallet/"
-              render={() => <Wallet {...this.props} />}
-            />
-            <Route
-              exact
-              path="/exchange/fill-order/"
-              render={() => <FillOrder {...this.props} />}
-            />
-            <Redirect to="/exchange/trades/" />
-          </Switch>
-        </Content>
-      </Layout>
+      <div style={{ padding: '15px' }} id="sim-exchange">
+        <Row
+          type="flex"
+          justify="space-between"
+          className="sim-ex-container contract-container"
+        >
+          <TopBar
+            contract={contract}
+            contracts={contracts}
+            onSelectContract={this.props.selectContract}
+          />
+        </Row>
+        <Row type="flex" justify="space-between">
+          <Col lg={6} xl={5}>
+            <div className="column-container">
+              <Wallet {...this.props} />
+              <Trades {...this.props} asks={asks} bids={bids} />
+            </div>
+          </Col>
+          <Col lg={5} xl={5}>
+            <div className="column-container">
+              <OrderBook />
+            </div>
+          </Col>
+          <Col lg={7} xl={9}>
+            <div className="column-container">
+              <TradeChart />
+              <OrdersPositionsFills {...this.props} />
+            </div>
+          </Col>
+          <Col lg={6} xl={5}>
+            <div className="column-container" style={{ paddingRight: '0' }}>
+              <TradeHistory />
+            </div>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

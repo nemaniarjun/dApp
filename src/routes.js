@@ -16,10 +16,18 @@ export const routes = [
   },
   {
     component: Containers.SimExchangeContainer,
+    exact: true,
     path: '/exchange'
   },
   {
     component: Containers.TestQueryContainer,
     path: '/test'
+  }
+];
+
+export const redirects = [
+  {
+    from: '/exchange/*',
+    to: '/exchange'
   }
 ];

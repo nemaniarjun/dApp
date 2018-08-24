@@ -190,11 +190,11 @@ const withdrawCollateralAsync = (amount, str = store) => {
   });
 };
 
-const getUserBalanceAsync = (tokenAddress, toString, str = store) => {
+const getBalanceAsync = (tokenAddress, toString, str = store) => {
   const marketjs = str.getState().marketjs;
   const web3 = str.getState().web3.web3Instance;
 
-  return marketjs.getUserBalanceAsync(tokenAddress).then(res => {
+  return marketjs.getBalanceAsync(tokenAddress, web3.eth.coinbase).then(res => {
     switch (toString) {
       case true:
         const tokenBalance = web3.fromWei(res.toFixed(), 'ether').toString();
@@ -212,5 +212,5 @@ export const MarketJS = {
   getUserUnallocatedCollateralBalanceAsync,
   tradeOrderAsync,
   withdrawCollateralAsync,
-  getUserBalanceAsync
+  getBalanceAsync
 };

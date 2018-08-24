@@ -78,7 +78,7 @@ class HeaderMenu extends Component {
         unallocatedCollateral: balance
       });
     });
-    await MarketJS.getUserBalance(
+    await MarketJS.getBalanceAsync(
       simExchange.contract.COLLATERAL_TOKEN_ADDRESS,
       true
     ).then(availableCollateral => {

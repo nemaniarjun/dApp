@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form as AntForm, Input, Button, Row, Col } from 'antd';
 
-import widthdrawIcon from '../../../img/icons/corner-left-up.svg';
+import withdrawIcon from '../../../img/icons/corner-left-up.svg';
 
 const FormItem = AntForm.Item;
 
@@ -65,6 +65,7 @@ class Form extends Component {
               step="0.001"
               placeholder="10.000"
               size="small"
+              className="deposit-withdraw-input"
             />
           )}
         </FormItem>
@@ -79,7 +80,7 @@ class Form extends Component {
             >
               <img
                 alt="Deposit"
-                src={widthdrawIcon}
+                src={withdrawIcon}
                 style={{
                   opacity: this.hasErrors(getFieldsError()) ? '0.2' : '1'
                 }}
@@ -90,15 +91,15 @@ class Form extends Component {
           <Col span={12} style={{ paddingLeft: '5px' }}>
             <Button
               disabled={this.hasErrors(getFieldsError())}
-              onClick={this.onClickSubmit.bind(this, 'widthdraw')}
+              onClick={this.onClickSubmit.bind(this, 'withdraw')}
               type="primary"
               style={{ width: '100%' }}
               className="sim-ex-action-btn"
             >
-              Widthdraw
+              Withdraw
               <img
-                alt="Widthdraw"
-                src={widthdrawIcon}
+                alt="Withdraw"
+                src={withdrawIcon}
                 style={{
                   opacity: this.hasErrors(getFieldsError()) ? '0.2' : '1',
                   transform: 'scaleX(-1) scaleY(-1)'

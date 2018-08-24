@@ -111,7 +111,7 @@ class HeaderMenu extends Component {
             </div>
           </div>
           <div className="unallocated-collateral">
-            <h2 style={{ fontWeight: '300', opacity: '0.7' }}>
+            <h2 style={{ fontWeight: '300', opacity: '0.7', fontSize: '18px' }}>
               Available for Trading
               <Tooltip title="This is your collateral balance">
                 <Icon type="info-circle-o" className="info-icon" />
@@ -130,6 +130,7 @@ class HeaderMenu extends Component {
               onSubmit={this.onSubmit}
               showModal={this.showModal}
               amount={amount}
+              className="deposit-withdraw-form"
             />
           </div>
         </Col>

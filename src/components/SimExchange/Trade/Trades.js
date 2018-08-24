@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Tabs } from 'antd';
+import { Tabs } from 'antd';
 
 import TradeContainer from './TradeContainer';
 import { MarketJS } from '../../../util/marketjs/marketMiddleware';
@@ -78,34 +78,30 @@ class Trades extends Component {
 
     return (
       <div id="trading" className="sim-ex-container m-top-10">
-        <Row type="flex" justify="space-around">
-          <Col span={24}>
-            <Tabs defaultActiveKey="1">
-              <TabPane tab="Buy" key="1">
-                <div className="sim-ex-inner-container">
-                  <TradeContainer
-                    {...this.props}
-                    type="bids"
-                    market=""
-                    data={buys}
-                    contract={contract}
-                  />
-                </div>
-              </TabPane>
-              <TabPane tab="Sell" key="2">
-                <div className="sim-ex-inner-container">
-                  <TradeContainer
-                    {...this.props}
-                    type="asks"
-                    market=""
-                    data={sells}
-                    contract={contract}
-                  />
-                </div>
-              </TabPane>
-            </Tabs>
-          </Col>
-        </Row>
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Buy" key="1">
+            <div className="sim-ex-inner-container">
+              <TradeContainer
+                {...this.props}
+                type="bids"
+                market=""
+                data={buys}
+                contract={contract}
+              />
+            </div>
+          </TabPane>
+          <TabPane tab="Sell" key="2">
+            <div className="sim-ex-inner-container">
+              <TradeContainer
+                {...this.props}
+                type="asks"
+                market=""
+                data={sells}
+                contract={contract}
+              />
+            </div>
+          </TabPane>
+        </Tabs>
       </div>
     );
   }

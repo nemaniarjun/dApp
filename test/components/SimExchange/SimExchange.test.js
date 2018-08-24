@@ -1,8 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 import { mount } from 'enzyme';
-import { Menu } from 'antd';
+import { Col } from 'antd';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -63,24 +62,9 @@ describe('SimExchange', () => {
     );
   });
 
-  it('contains menu items', () => {
+  it('contains 4 columns', () => {
     const component = simExchangeTrades.find(SimExchange);
-    const menu = component.find(Menu);
-
-    const hasTradesItem = menu.containsMatchingElement(
-      <Menu.Item key="/exchange/trades/">
-        <Link to="/exchange/trades/">Trades</Link>
-      </Menu.Item>
-    );
-
-    const hasWalletItem = menu.containsMatchingElement(
-      <Menu.Item key="/exchange/wallet/">
-        <Link to="/exchange/wallet/">Wallet</Link>
-      </Menu.Item>
-    );
-
-    expect(hasTradesItem, 'Should have trades menu item').to.be.true;
-    expect(hasWalletItem, 'Should have wallet menu item').to.be.true;
+    expect(component.find('.column-container')).to.have.length(4);
   });
 
   it('renders trades', () => {

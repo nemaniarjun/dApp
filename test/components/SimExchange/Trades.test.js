@@ -7,7 +7,6 @@ import moment from 'moment';
 import Trades from '../../../src/components/SimExchange/Trade/Trades';
 import TradeContainer from '../../../src/components/SimExchange/Trade/TradeContainer';
 import { MarketJS } from '../../../src/util/marketjs/marketMiddleware';
-import Table from '../../../src/components/SimExchange/Trade/Table';
 import BigNumber from 'bignumber.js';
 
 const mockContract = {
@@ -94,13 +93,6 @@ describe('TradesContainer', () => {
     );
 
     trades = shallow(<Trades {...props} />);
-  });
-
-  it('shows order on row select', () => {
-    let tableContainer = shallow(<Table {...props} />);
-
-    tradeContainer.update();
-    tableContainer.update();
   });
 
   it('should open trade confirmation modal', () => {

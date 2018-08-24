@@ -118,13 +118,8 @@ describe('HeaderMenu', () => {
     expect(headerMenu.containsMatchingElement(<Form />)).to.equal(true);
   });
 
-  it('should have a input field to accept deposits', () => {
-    form = headerMenu.find('.deposit-form');
-    expect(form.find(Input).length).to.equal(1);
-  });
-
-  it('should have a input field to accept withdraw', () => {
-    form = headerMenu.find('.withdraw-form');
+  it('should have a input field to accept deposits/withdraw', () => {
+    form = headerMenu.find('.deposit-withdraw-form');
     expect(form.find(Input).length).to.equal(1);
   });
 
@@ -150,11 +145,11 @@ describe('HeaderMenu', () => {
       value: '1'
     };
 
-    let input = headerMenu.find('.deposit-input').first();
+    let input = headerMenu.find('.deposit-withdraw-input').first();
     input.value = '1';
     input.simulate('change');
 
-    let form = headerMenu.find('.deposit-form').first();
+    let form = headerMenu.find('.deposit-withdraw-form').first();
     let spy = sinon.spy(headerMenu.instance(), 'onSubmit');
     headerMenu.update();
 

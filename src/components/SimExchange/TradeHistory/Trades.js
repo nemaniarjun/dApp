@@ -12,9 +12,12 @@ class Trades extends Component {
           name="Trade History"
           tooltip="This is the global Trading History"
         />
-        <div className="sim-ex-inner-container" style={{ paddingTop: '0' }}>
-          <Table dataSource={[]} columns={columns} />
-        </div>
+        <Table
+          dataSource={[]}
+          columns={columns}
+          pagination={false}
+          scroll={{ y: 700 }}
+        />
       </div>
     );
   }

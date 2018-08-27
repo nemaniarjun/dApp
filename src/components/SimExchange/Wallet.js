@@ -17,9 +17,7 @@ class Wallet extends Component {
             <HeaderMenu {...this.props} />
           </TabPane>
           <TabPane tab="History" key="2">
-            <div className="sim-ex-inner-container" style={{ paddingTop: '0' }}>
-              <Table {...this.props} />
-            </div>
+            <Table {...this.props} />
           </TabPane>
         </Tabs>
       </div>

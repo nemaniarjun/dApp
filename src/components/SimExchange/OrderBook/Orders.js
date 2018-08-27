@@ -53,15 +53,13 @@ class Orders extends Component {
     return (
       <div className="sim-ex-container">
         <SectionHeader name="Order Book" tooltip="This is your Order Book" />
-        <div className="sim-ex-inner-container" style={{ paddingTop: '0' }}>
-          <Table
-            rowKey={this.state.contract.key}
-            dataSource={this.state.bids}
-            columns={columns}
-            scroll={{ y: 600 }}
-            pagination={{ pageSize: 25 }}
-          />
-        </div>
+        <Table
+          rowKey={this.state.contract.key}
+          dataSource={this.state.bids}
+          columns={columns}
+          scroll={{ y: 700 }}
+          pagination={false}
+        />
       </div>
     );
   }

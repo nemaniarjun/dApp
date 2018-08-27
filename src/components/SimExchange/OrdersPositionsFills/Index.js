@@ -23,9 +23,7 @@ class Index extends Component {
             }
             key="1"
           >
-            <div className="sim-ex-inner-container" style={{ paddingTop: '0' }}>
-              <OpenOrders />
-            </div>
+            <OpenOrders />
           </TabPane>
           <TabPane
             tab={
@@ -38,9 +36,7 @@ class Index extends Component {
             }
             key="2"
           >
-            <div className="sim-ex-inner-container" style={{ paddingTop: '0' }}>
-              <Positions />
-            </div>
+            <Positions />
           </TabPane>
           <TabPane
             tab={
